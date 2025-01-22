@@ -20,13 +20,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 						return resp.json();
 					})
 					.then(data => {
-						console.log(data);
-						setStore({contacts: data.contacts});
+						if (data.contacts && data.contacts.length > 0) {
+							console.log(data);
+							setStore({contacts: data.contacts});
+						} else {
+							fetch('https://playground.4geeks.com/contact/agendas/arnauoliveras/contacts', {
+								method: "POST",
+								headers: {
+									"Content-Type": "application/json"
+								}
+							})
+						}
 					})
 					.catch(error => {
-						console.log(error);
+						console.log("Error al cargar los contactos:", error);
 					});
-
 			}
 		}
 	};
